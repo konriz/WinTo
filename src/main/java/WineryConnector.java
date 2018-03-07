@@ -1,4 +1,5 @@
-import com.google.gson.Gson;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,19 +12,17 @@ import java.util.List;
 
 public class WineryConnector {
 
-    static Gson g = new Gson();
-
-    public static void getCategories()
+    public static HashMap<String, List<String>> getCategories()
     {
         HttpURLConnection connection = null;
 
         HashMap<String, List<String>> catValues = new HashMap<>();
         HashSet<String> categories = new HashSet<>();
         categories.add("grapes");
-        categories.add("brands");
-        categories.add("countries");
-        categories.add("tastes");
-        categories.add("colours");
+        categories.add("brand");
+        categories.add("country");
+        categories.add("taste");
+        categories.add("colour");
 
         for (String category : categories) {
             try
@@ -48,7 +47,21 @@ public class WineryConnector {
                     }
                     in.close();
 
-                    catValues.put(category, getNames(category, response.toString()));
+                    List<String> namesList = new ArrayList<>();
+
+                    // JSON parsing here
+
+                    JSONArray jsonarray = new JSONArray(response.toString());
+
+                    for (int i = 0; i<jsonarray.length(); i++)
+                    {
+                        JSONObject jsonObject = jsonarray.getJSONObject(i);
+                        String catName = jsonObject.getString(category);
+                        System.out.println(catName);
+                        namesList.add(catName);
+                    }
+
+                    catValues.put(category, namesList);
                     System.out.println(String.format("Values of %s added.\n", category));
                 }
                 else
@@ -61,46 +74,7 @@ public class WineryConnector {
                 e.printStackTrace();
             }
         }
-
-    }
-
-    private static List<String> getNames(String category, String response)
-    {
-        List<String> resultSet = new ArrayList<>();
-        switch (category)
-        {
-            case "grapes":
-                Grapes[] grapes = g.fromJson(response, Grapes[].class);
-                for (Grapes g :
-                        grapes) {
-                    resultSet.add(g.getName());
-                }
-
-                break;
-            case "brands":
-
-                break;
-            case "countries":
-
-                break;
-            case "tastes":
-                Taste[] tastes = g.fromJson(response, Taste[].class);
-                for (Taste t :
-                        tastes) {
-                    resultSet.add(t.getTaste());
-                }
-                break;
-            case "colours":
-
-                break;
-            default:
-                break;
-        }
-        for(String s : resultSet)
-        {
-            System.out.println(s);
-        }
-        return resultSet;
+        return catValues;
     }
 
 }
