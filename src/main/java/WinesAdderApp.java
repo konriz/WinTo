@@ -13,12 +13,17 @@ public class WinesAdderApp extends Application {
     @Override
     public void start(Stage stage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("adder_view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("adder_view.fxml"));
+        Parent root = loader.load();
+
+        AdderController adderController = loader.getController();
 
         Scene scene = new Scene(root);
-
         stage.setTitle("Welcome");
         stage.setScene(scene);
         stage.show();
+
+        adderController.populateBoxes();
+
     }
 }
