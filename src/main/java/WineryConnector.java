@@ -88,6 +88,8 @@ public class WineryConnector {
         return catValues;
     }
 
+    // TODO add wine method!
+
     public static String addBrand(String brand)
     {
         HttpURLConnection connection = null;

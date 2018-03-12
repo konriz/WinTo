@@ -47,9 +47,13 @@
         </items>
     </ComboBox>
 
-    <Button fx:id="newBrandButton" text="new" onAction="#handleNewBrandButton"
+    <Button fx:id="newBrandButton" text="new"
             GridPane.columnIndex="2" GridPane.rowIndex="3" />
 
+<!--
+    <Button fx:id="newBrandButton" text="new" onAction="#handleNewBrandButton"
+            GridPane.columnIndex="2" GridPane.rowIndex="3" />
+-->
 
     <Label text="Country:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 

@@ -44,27 +44,31 @@ public class AdderController {
 
     public void populateBoxes()
     {
+        HashMap<String, List<String>> categories = WineryConnector.getCategories();
+
         grapesBox.getItems().clear();
-        grapesBox.getItems().addAll(WineryConnector.getCategories().get("grapes"));
+        grapesBox.getItems().addAll(categories.get("grapes"));
 
         brandBox.getItems().clear();
-        brandBox.getItems().addAll(WineryConnector.getCategories().get("brand"));
+        brandBox.getItems().addAll(categories.get("brand"));
 
         countryBox.getItems().clear();
-        countryBox.getItems().addAll(WineryConnector.getCategories().get("country"));
+        countryBox.getItems().addAll(categories.get("country"));
 
         tasteBox.getItems().clear();
-        tasteBox.getItems().addAll(WineryConnector.getCategories().get("taste"));
+        tasteBox.getItems().addAll(categories.get("taste"));
 
         colourBox.getItems().clear();
-        colourBox.getItems().addAll(WineryConnector.getCategories().get("colour"));
+        colourBox.getItems().addAll(categories.get("colour"));
 
     }
 
-    @FXML
-    protected void handleNewBrandButton()
-    {
-        resultLabel.setText(WineryConnector.addBrand(brandField.getText()));
-    }
+    // TODO show add dialog
+
+//    @FXML
+//    protected void handleNewBrandButton()
+//    {
+//        resultLabel.setText(WineryConnector.addBrand(brandField.getText()));
+//    }
 
 }
