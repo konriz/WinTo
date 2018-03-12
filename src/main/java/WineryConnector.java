@@ -3,15 +3,16 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 public class WineryConnector {
+
 
     public static HashMap<String, List<String>> getCategories()
     {
@@ -68,7 +69,18 @@ public class WineryConnector {
                     System.out.println(String.format("No URL for %s! Check your winery app!\n", category));
                 }
 
-            } catch (Exception e)
+            } catch (ConnectException e)
+            {
+                System.out.println("Connection failed, check your winery app!");
+                // FIXME temporary fix
+                List<String> namesList = new ArrayList<>();
+                namesList.add("Pos1");
+                namesList.add("Pos2");
+                namesList.add("Pos3");
+                catValues.put(category, namesList);
+                System.out.println("Temporary items added\n");
+            }
+            catch (IOException e)
             {
                 e.printStackTrace();
             }
