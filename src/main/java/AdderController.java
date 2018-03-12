@@ -39,4 +39,10 @@ public class AdderController {
         resultLabel.setText(createdWine.build().toString());
     }
 
+    @FXML
+    protected void handleNewBrandButton()
+    {
+        resultLabel.setText(WineryConnector.addBrand(brandField.getText()));
+    }
+
 }

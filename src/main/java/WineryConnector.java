@@ -2,6 +2,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -49,8 +50,6 @@ public class WineryConnector {
 
                     List<String> namesList = new ArrayList<>();
 
-                    // JSON parsing here
-
                     JSONArray jsonarray = new JSONArray(response.toString());
 
                     for (int i = 0; i<jsonarray.length(); i++)
@@ -75,6 +74,35 @@ public class WineryConnector {
             }
         }
         return catValues;
+    }
+
+    public static String addBrand(String brand)
+    {
+        HttpURLConnection connection = null;
+        try
+        {
+            URL url = new URL("http://localhost:8080/wines/brand");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            String urlParameters = "brand=" + brand;
+            connection.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.flush();
+            wr.close();
+
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response code : " + responseCode);
+
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        return String.format("Brand %s added!", brand);
     }
 
 }
