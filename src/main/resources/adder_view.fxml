@@ -30,7 +30,8 @@
         </items>
     </ComboBox>
 
-    <Button fx:id="newGrapesButton" text="new" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+    <Button fx:id="newGrapesButton" text="new" onAction="#handleNewGrapesButton"
+            GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
 
     <Label text="Brand:" GridPane.columnIndex="0" GridPane.rowIndex="3" />

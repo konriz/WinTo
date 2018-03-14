@@ -7,10 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class WineryConnector {
 
@@ -60,6 +57,7 @@ public class WineryConnector {
                         namesList.add(catName);
                     }
 
+                    Collections.sort(namesList);
                     catValues.put(category, namesList);
                     System.out.println(String.format("Values of %s added.\n", category));
                 }
@@ -91,8 +89,12 @@ public class WineryConnector {
 
     // Use this to add new country, brand...
 
-    public static String addItemToCategory(String item, Categories category)
+    public static void addItemToCategory(String item, Categories category) throws CategoryAddException
     {
+        if (item.length()<1) {
+            throw new CategoryAddException(category);
+        }
+
         HttpURLConnection connection = null;
         try
         {
@@ -116,8 +118,7 @@ public class WineryConnector {
             e.printStackTrace();
         }
 
-
-        return String.format("%s : %s added!", category.toString(), item);
+        System.out.println(String.format("%s : %s added!", category.toString(), item));
     }
 
 }

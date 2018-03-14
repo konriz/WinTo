@@ -2,9 +2,12 @@ import Entities.Categories;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableListBase;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,12 +44,15 @@ public class AdderController {
 
     // TODO divide this to single categories to shorten population duration when refreshing
     // populateBox(Categories.enum)
+    // populateBox(Box box)
+    // WineryConnector.getCategory(Categories.enum)
     public void populateBoxes()
     {
         HashMap<String, List<String>> categories = WineryConnector.getCategories();
 
         grapesBox.getItems().clear();
         grapesBox.getItems().addAll(categories.get("grapes"));
+        grapesBox.getItems();
 
         brandBox.getItems().clear();
         brandBox.getItems().addAll(categories.get("brand"));
@@ -61,41 +67,44 @@ public class AdderController {
         colourBox.getItems().addAll(categories.get("colour"));
     }
 
-
-    // TODO show add dialog
+    @FXML
+    protected void handleNewGrapesButton()
+    {
+        handleNewButton(Categories.grapes);
+    }
 
     @FXML
     protected void handleNewBrandButton()
     {
-        TextInputDialog newBrandDialog = new TextInputDialog();
-        newBrandDialog.setContentText("Add new brand");
-        newBrandDialog.setTitle("New brand");
-        newBrandDialog.showAndWait();
-        String newBrand = newBrandDialog.getEditor().getText();
-
-        if (newBrand != "")
-        {
-            // TODO make this throw exception!
-            WineryConnector.addItemToCategory(newBrandDialog.getEditor().getText(), Categories.brand);
-            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.show();
-            confirm.setContentText(String.format("Brand %s added", newBrand));
-            this.populateBoxes();
-        }
-        else
-        {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setContentText("Can't add such brand!");
-            error.show();
-        }
-
-
+        handleNewButton(Categories.brand);
     }
 
     @FXML
     protected void handleNewCountryButton()
     {
-        WineryConnector.addItemToCategory("Unknown", Categories.country);
+        handleNewButton(Categories.country);
+    }
+
+    private void handleNewButton(Categories category)
+    {
+        TextInputDialog inputDialog = new TextInputDialog();
+        inputDialog.setContentText(String.format("Add new %s", category.toString()));
+        inputDialog.setTitle(String.format("New %s", category.toString()));
+        inputDialog.showAndWait();
+        String newItem = inputDialog.getEditor().getText();
+
+        try {
+            WineryConnector.addItemToCategory(newItem, category);
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.show();
+            confirm.setContentText(String.format("%s %s added", category.toString(), newItem));
+            this.populateBoxes();
+
+
+        } catch (CategoryAddException e){
+            e.getAlert().show();
+        }
+
     }
 
 }
