@@ -1,11 +1,9 @@
+import Entities.Categories;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableListBase;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +37,10 @@ public class AdderController {
     @FXML
     protected void handleCreateWine()
     {
-
     }
 
+    // TODO divide this to single categories to shorten population duration when refreshing
+    // populateBox(Categories.enum)
     public void populateBoxes()
     {
         HashMap<String, List<String>> categories = WineryConnector.getCategories();
@@ -60,15 +59,43 @@ public class AdderController {
 
         colourBox.getItems().clear();
         colourBox.getItems().addAll(categories.get("colour"));
-
     }
+
 
     // TODO show add dialog
 
-//    @FXML
-//    protected void handleNewBrandButton()
-//    {
-//        resultLabel.setText(WineryConnector.addBrand(brandField.getText()));
-//    }
+    @FXML
+    protected void handleNewBrandButton()
+    {
+        TextInputDialog newBrandDialog = new TextInputDialog();
+        newBrandDialog.setContentText("Add new brand");
+        newBrandDialog.setTitle("New brand");
+        newBrandDialog.showAndWait();
+        String newBrand = newBrandDialog.getEditor().getText();
+
+        if (newBrand != "")
+        {
+            // TODO make this throw exception!
+            WineryConnector.addItemToCategory(newBrandDialog.getEditor().getText(), Categories.brand);
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.show();
+            confirm.setContentText(String.format("Brand %s added", newBrand));
+            this.populateBoxes();
+        }
+        else
+        {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setContentText("Can't add such brand!");
+            error.show();
+        }
+
+
+    }
+
+    @FXML
+    protected void handleNewCountryButton()
+    {
+        WineryConnector.addItemToCategory("Unknown", Categories.country);
+    }
 
 }

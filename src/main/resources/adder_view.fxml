@@ -26,8 +26,6 @@
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Grape 1" />
-                <String fx:value="Grape 2" />
-                <String fx:value="Grape 3" />
             </FXCollections>
         </items>
     </ComboBox>
@@ -41,19 +39,13 @@
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Brand 1" />
-                <String fx:value="Brand 2" />
-                <String fx:value="Brand 3" />
             </FXCollections>
         </items>
     </ComboBox>
 
-    <Button fx:id="newBrandButton" text="new"
-            GridPane.columnIndex="2" GridPane.rowIndex="3" />
-
-<!--
     <Button fx:id="newBrandButton" text="new" onAction="#handleNewBrandButton"
             GridPane.columnIndex="2" GridPane.rowIndex="3" />
--->
+
 
     <Label text="Country:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 
@@ -61,13 +53,12 @@
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Country 1" />
-                <String fx:value="Country 2" />
-                <String fx:value="Country 3" />
             </FXCollections>
         </items>
     </ComboBox>
 
-    <Button fx:id="newCountryButton" text="new" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+    <Button fx:id="newCountryButton" text="new" onAction="#handleNewCountryButton"
+            GridPane.columnIndex="2" GridPane.rowIndex="4" />
 
 
     <Label text="Year:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
@@ -81,8 +72,6 @@
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Taste 1" />
-                <String fx:value="Taste 2" />
-                <String fx:value="Taste 3" />
             </FXCollections>
         </items>
     </ComboBox>
@@ -94,8 +83,6 @@
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Colour 1" />
-                <String fx:value="Colour 2" />
-                <String fx:value="Colour 3" />
             </FXCollections>
         </items>
     </ComboBox>

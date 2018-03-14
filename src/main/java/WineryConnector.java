@@ -1,3 +1,4 @@
+import Entities.Categories;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,16 +20,14 @@ public class WineryConnector {
         HttpURLConnection connection = null;
 
         HashMap<String, List<String>> catValues = new HashMap<>();
-        HashSet<String> categories = new HashSet<>();
-        categories.add("grapes");
-        categories.add("brand");
-        categories.add("country");
-        categories.add("taste");
-        categories.add("colour");
 
-        for (String category : categories) {
+        for (Categories cat : Categories.values()) {
+
+            String category = cat.toString();
+
             try
             {
+
                 URL url = new URL("http://localhost:8080/wines/" + category);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
@@ -90,16 +89,18 @@ public class WineryConnector {
 
     // TODO add wine method!
 
-    public static String addBrand(String brand)
+    // Use this to add new country, brand...
+
+    public static String addItemToCategory(String item, Categories category)
     {
         HttpURLConnection connection = null;
         try
         {
-            URL url = new URL("http://localhost:8080/wines/brand");
+            URL url = new URL("http://localhost:8080/wines/" + category.toString());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
 
-            String urlParameters = "brand=" + brand;
+            String urlParameters = category.toString()+ "=" + item;
             connection.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
             wr.writeBytes(urlParameters);
@@ -116,7 +117,7 @@ public class WineryConnector {
         }
 
 
-        return String.format("Brand %s added!", brand);
+        return String.format("%s : %s added!", category.toString(), item);
     }
 
 }

@@ -1,3 +1,5 @@
+package Entities;
+
 import entities.Category;
 import lombok.Getter;
 import lombok.Setter;
