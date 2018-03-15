@@ -1,4 +1,7 @@
+package controller;
+
 import Entities.Categories;
+import exceptions.CategoryAddException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

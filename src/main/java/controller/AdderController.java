@@ -1,13 +1,11 @@
+package controller;
+
 import Entities.Categories;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
+import exceptions.CategoryAddException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,6 +36,19 @@ public class AdderController {
     private Label resultLabel;
 
     @FXML
+    void initialize()
+    {
+        assert grapesBox != null : "GrapesBox not injected!";
+        assert tasteBox != null : "tasteBox not injected!";
+        assert colourBox != null : "colourBox not injected!";
+        assert countryBox != null : "countryBox not injected!";
+        assert brandBox != null : "brandBox not injected!";
+
+        populateBoxes();
+
+    }
+
+    @FXML
     protected void handleCreateWine()
     {
     }
@@ -45,7 +56,7 @@ public class AdderController {
     // TODO divide this to single categories to shorten population duration when refreshing
     // populateBox(Categories.enum)
     // populateBox(Box box)
-    // WineryConnector.getCategory(Categories.enum)
+    // controller.WineryConnector.getCategory(Categories.enum)
     public void populateBoxes()
     {
         HashMap<String, List<String>> categories = WineryConnector.getCategories();

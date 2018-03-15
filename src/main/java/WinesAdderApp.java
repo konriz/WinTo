@@ -1,3 +1,4 @@
+import controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,17 +14,15 @@ public class WinesAdderApp extends Application {
     @Override
     public void start(Stage stage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("adder_view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main_view.fxml"));
         Parent root = loader.load();
 
-        AdderController adderController = loader.getController();
+        MainController mainController = loader.getController();
 
         Scene scene = new Scene(root);
         stage.setTitle("Welcome");
         stage.setScene(scene);
         stage.show();
-
-        adderController.populateBoxes();
 
     }
 }

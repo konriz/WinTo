@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<TabPane fx:id="tabPane" fx:controller="controller.MainController" xmlns="http://javafx.com/javafx/8.0.40"
+         xmlns:fx="http://www.w3.org/2001/XInclude">
+    <tabs>
+        <Tab fx:id="adderTab" text="Add" closable="false">
+            <fx:include fx:id="adderTabPage" source="adder_view.fxml"/>
+        </Tab>
+
+        <Tab fx:id="getterTab" text="View" closable="false">
+            <fx:include fx:id="getterTabPage" source="getter_view.fxml"/>
+        </Tab>
+
+        <Tab fx:id="deleterTab" text="Delete" closable="false">
+            <fx:include fx:id="deleterTabPage" source="deleter_view.fxml"/>
+        </Tab>
+
+    </tabs>
+
+</TabPane>

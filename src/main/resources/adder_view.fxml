@@ -11,7 +11,7 @@
 
 
 <GridPane alignment="CENTER" hgap="10" prefHeight="500.0" prefWidth="550.0" vgap="10"
-          xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdderController">
+          xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdderController">
 
     <Text text="Create new wine:" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER"/>
 
