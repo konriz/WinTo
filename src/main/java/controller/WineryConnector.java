@@ -1,6 +1,7 @@
 package controller;
 
 import Entities.Categories;
+import Entities.Wine;
 import exceptions.CategoryAddException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +15,79 @@ import java.util.*;
 
 public class WineryConnector {
 
+
+    public static List<Entities.Wine> getWines()
+    {
+        HttpURLConnection connection = null;
+
+        List<Entities.Wine> wines = new ArrayList<>();
+
+        try
+        {
+            URL url = new URL("http://localhost:8080/wines/all");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response code : " + responseCode);
+            if (responseCode == 200)
+            {
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream())
+                );
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null)
+                {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                JSONArray jsonarray = new JSONArray(response.toString());
+
+                for (int i = 0; i<jsonarray.length(); i++)
+                {
+                    JSONObject jsonObject = jsonarray.getJSONObject(i);
+                    String name = jsonObject.getString("name");
+
+                    JSONObject brandJSON = jsonObject.getJSONObject("brand");
+                    String brand = brandJSON.getString("brand").toString();
+
+                    // TODO handle nulls!
+
+//                    JSONObject colourJSON = jsonObject.getJSONObject("colour");
+//                    String colour = colourJSON.getString("colour").toString();
+//
+//                    JSONObject tasteJSON = jsonObject.getJSONObject("taste");
+//                    String taste = tasteJSON.getString("taste").toString();
+
+                    Entities.Wine wine = new Wine(name, brand);
+                    wines.add(wine);
+
+                }
+
+                System.out.println(String.format("%s wines added.", wines.size()));
+            }
+            else
+            {
+                System.out.println(String.format("Error! Check your winery app!\n"));
+            }
+
+
+        }
+        catch (ConnectException e)
+        {
+            System.out.println("Connection failed, check your winery app!");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return wines;
+
+    }
 
     public static HashMap<String, List<String>> getCategories()
     {

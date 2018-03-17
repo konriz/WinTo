@@ -1,31 +1,32 @@
 package controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import java.util.List;
 
 public class GetterController {
 
     @FXML
-    private ListView winesListView;
+    private TableView winesTableView;
 
 
     @FXML
     void initialize()
     {
-        populateListView();
+        populateTableView();
     }
 
     private ObservableList<String> winesList;
 
-    public void populateListView()
+
+
+    public void populateTableView()
     {
         // TODO make this parse JSON and add wines :)
 
-        winesList = FXCollections.observableArrayList();
-        winesList.setAll("Wine1", "Wine2", "Wine3");
-        winesListView.setItems(winesList);
+        List<Entities.Wine> wines = WineryConnector.getWines();
+        winesTableView.getItems().setAll(wines);
 
     }
 
