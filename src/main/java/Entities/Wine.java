@@ -27,7 +27,7 @@ public class Wine {
     {
         setName(name);
         setBrand(brand);
-        setBrand(colour);
+        setColour(colour);
         setTaste(taste);
     }
 

@@ -54,15 +54,20 @@ public class WineryConnector {
                     JSONObject brandJSON = jsonObject.getJSONObject("brand");
                     String brand = brandJSON.getString("brand").toString();
 
-                    // TODO handle nulls!
+                    String colour = "N/A";
+                    if(!jsonObject.isNull("colour"))
+                    {
+                        colour = jsonObject.getJSONObject("colour").getString("colour").toString();
+                    }
 
-//                    JSONObject colourJSON = jsonObject.getJSONObject("colour");
-//                    String colour = colourJSON.getString("colour").toString();
-//
-//                    JSONObject tasteJSON = jsonObject.getJSONObject("taste");
-//                    String taste = tasteJSON.getString("taste").toString();
+                    String taste = "N/A";
+                    if(!jsonObject.isNull("taste"))
+                    {
+                        taste = jsonObject.getJSONObject("taste").getString("taste").toString();
+                    }
 
-                    Entities.Wine wine = new Wine(name, brand);
+
+                    Entities.Wine wine = new Wine(name, brand, colour, taste);
                     wines.add(wine);
 
                 }
