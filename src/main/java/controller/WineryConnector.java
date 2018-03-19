@@ -3,6 +3,9 @@ package controller;
 import Entities.Categories;
 import Entities.Wine;
 import exceptions.CategoryAddException;
+import exceptions.WineAddException;
+import javafx.scene.control.Alert;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -94,82 +97,142 @@ public class WineryConnector {
 
     }
 
-    public static HashMap<String, List<String>> getCategories()
+
+    public static List<String> getCategory(Categories type)
     {
+        String category = type.toString();
+        List<String> categories= new ArrayList<>();
         HttpURLConnection connection = null;
 
-        HashMap<String, List<String>> catValues = new HashMap<>();
+        try
+        {
 
-        for (Categories cat : Categories.values()) {
+            URL url = new URL("http://localhost:8080/wines/" + category);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
-            String category = cat.toString();
-
-            try
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response code : " + responseCode);
+            if (responseCode == 200)
             {
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream())
+                );
+                String inputLine;
+                StringBuilder response = new StringBuilder();
 
-                URL url = new URL("http://localhost:8080/wines/" + category);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-
-                int responseCode = connection.getResponseCode();
-                System.out.println("Response code : " + responseCode);
-                if (responseCode == 200)
+                while ((inputLine = in.readLine()) != null)
                 {
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(connection.getInputStream())
-                    );
-                    String inputLine;
-                    StringBuilder response = new StringBuilder();
-
-                    while ((inputLine = in.readLine()) != null)
-                    {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    List<String> namesList = new ArrayList<>();
-
-                    JSONArray jsonarray = new JSONArray(response.toString());
-
-                    for (int i = 0; i<jsonarray.length(); i++)
-                    {
-                        JSONObject jsonObject = jsonarray.getJSONObject(i);
-                        String catName = jsonObject.getString(category);
-                        System.out.println(catName);
-                        namesList.add(catName);
-                    }
-
-                    Collections.sort(namesList);
-                    catValues.put(category, namesList);
-                    System.out.println(String.format("Values of %s added.\n", category));
+                    response.append(inputLine);
                 }
-                else
-                {
-                    System.out.println(String.format("No URL for %s! Check your winery app!\n", category));
-                }
+                in.close();
 
-            } catch (ConnectException e)
-            {
-                System.out.println("Connection failed, check your winery app!");
-                // FIXME temporary fix
                 List<String> namesList = new ArrayList<>();
-                namesList.add("Pos1");
-                namesList.add("Pos2");
-                namesList.add("Pos3");
-                catValues.put(category, namesList);
-                System.out.println("Temporary items added\n");
+
+                JSONArray jsonarray = new JSONArray(response.toString());
+
+                for (int i = 0; i<jsonarray.length(); i++)
+                {
+                    JSONObject jsonObject = jsonarray.getJSONObject(i);
+                    String catName = jsonObject.getString(category);
+                    System.out.println(catName);
+                    categories.add(catName);
+                }
+
+                Collections.sort(categories);
+                System.out.println(String.format("Values of %s added.\n", category));
             }
-            catch (IOException e)
+            else
             {
-                e.printStackTrace();
+                System.out.println(String.format("No URL for %s! Check your winery app!\n", category));
             }
+
+        } catch (ConnectException e)
+        {
+            System.out.println("Connection failed, check your winery app!");
+            categories.add("Pos1");
+            categories.add("Pos2");
+            categories.add("Pos3");
+            System.out.println("Temporary items added\n");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return categories;
+    }
+
+    public static HashMap<String, List<String>> getCategories()
+    {
+        HashMap<String, List<String>> catValues = new HashMap<>();
+        for (Categories cat : Categories.values()) {
+            catValues.put(cat.toString(), getCategory(cat));
         }
         return catValues;
     }
 
-    // TODO add wine method!
+    public static void addWine(Wine w) throws WineAddException
+    {
+        if (w.getName().length() < 1 || w.getBrand() == null)
+        {
+            throw new WineAddException();
+        }
+        else
+        {
+            HttpURLConnection connection = null;
 
-    // Use this to add new country, brand...
+            try{
+                URL url = new URL("http://localhost:8080/wines");
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+
+                StringBuilder urlParameters = new StringBuilder();
+                urlParameters.append("name=" + w.getName());
+                urlParameters.append("&brand=" + w.getBrand());
+                if (w.getGrapes() != null)
+                {
+                    urlParameters.append("&grapes=" + w.getGrapes());
+                }
+
+                connection.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+                wr.writeBytes(urlParameters.toString());
+                wr.flush();
+                wr.close();
+
+                int responseCode = connection.getResponseCode();
+                System.out.println("Response code : " + responseCode);
+
+                if (responseCode == 200)
+                {
+                    StringBuilder confirmString = new StringBuilder();
+                    confirmString.append("New wine added :\n");
+                    confirmString.append(w.getBrand());
+                    confirmString.append(" : ");
+                    confirmString.append(w.getName());
+
+                    Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+                    confirm.setContentText(confirmString.toString());
+                    confirm.showAndWait();
+
+                }
+                else
+                {
+                    throw new WineAddException();
+                }
+
+            } catch (WineAddException e)
+            {
+                e.getAlert().show();
+            }
+
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     public static void addItemToCategory(String item, Categories category) throws CategoryAddException
     {

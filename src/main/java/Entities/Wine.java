@@ -1,5 +1,6 @@
 package Entities;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class Wine {
     private final SimpleStringProperty year = new SimpleStringProperty();
     private final SimpleStringProperty alcohol = new SimpleStringProperty();
     private final SimpleStringProperty volume = new SimpleStringProperty();
+    private final SimpleBooleanProperty drinked = new SimpleBooleanProperty();
 
 
     public Wine(String name, String brand)
@@ -77,6 +79,8 @@ public class Wine {
         this.volume.set(volume);
     }
 
+    public void setDrinked(boolean drinked) {this.drinked.set(drinked);}
+
     public String getName()
     {
         return this.name.get();
@@ -122,6 +126,8 @@ public class Wine {
         return this.alcohol.get();
     }
 
+    public boolean getDrinked() { return this.drinked.get();}
+
 
 
     @Override
@@ -132,6 +138,7 @@ public class Wine {
         description.append(getName() + " - ");
         description.append(getColour() + ", ");
         description.append(getTaste() + " from " + getCountry());
+        description.append(" - Drinked - " + getDrinked());
 
         return description.toString();
     }

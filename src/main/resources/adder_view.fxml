@@ -9,7 +9,7 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 
-
+<?import javafx.scene.control.CheckBox?>
 <GridPane alignment="CENTER" hgap="10" prefHeight="500.0" prefWidth="550.0" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdderController">
 
@@ -98,12 +98,16 @@
 
     <TextField fx:id="volumeField" GridPane.columnIndex="1" GridPane.rowIndex="9" prefWidth="150"/>
 
+    <Label text="Drinked:" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+
+    <CheckBox fx:id="drinkedBox" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+
 
     <Button fx:id="createWine" text="Create" onAction="#handleCreateWine"
-            GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.halignment="CENTER"
+            GridPane.columnIndex="0" GridPane.rowIndex="11" GridPane.halignment="CENTER"
             GridPane.columnSpan="3"/>
 
-    <Label fx:id="resultLabel" text="Create new wine!" GridPane.columnIndex="0" GridPane.rowIndex="11"
+    <Label fx:id="resultLabel" text="Create new wine!" GridPane.columnIndex="0" GridPane.rowIndex="12"
            GridPane.columnSpan="3" GridPane.halignment="CENTER"/>
 
 

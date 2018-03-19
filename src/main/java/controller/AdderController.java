@@ -1,10 +1,13 @@
 package controller;
 
 import Entities.Categories;
+import Entities.Wine;
 import exceptions.CategoryAddException;
+import exceptions.WineAddException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import ui.CategoryBox;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +36,9 @@ public class AdderController {
     private ComboBox<String> colourBox;
 
     @FXML
+    private CheckBox drinkedBox;
+
+    @FXML
     private Label resultLabel;
 
     @FXML
@@ -51,49 +57,68 @@ public class AdderController {
     @FXML
     protected void handleCreateWine()
     {
+        Wine wine = new Wine(nameField.getText(), brandBox.getValue());
+        wine.setGrapes(grapesBox.getValue());
+        wine.setColour(colourBox.getValue());
+        wine.setTaste(tasteBox.getValue());
+        wine.setCountry(countryBox.getValue());
+        wine.setYear(yearField.getText());
+        wine.setAlcohol(alcoholField.getText());
+        wine.setVolume(volumeField.getText());
+        wine.setDrinked(drinkedBox.isSelected());
+
+        try {
+                WineryConnector.addWine(wine);
+// TODO refresh wines list
+
+        } catch (WineAddException e)
+        {
+            e.getAlert().show();
+        }
+
+
+
     }
 
-    // TODO divide this to single categories to shorten population duration when refreshing
-    // populateBox(Categories.enum)
-    // populateBox(Box box)
-    // controller.WineryConnector.getCategory(Categories.enum)
+    public void populateBox(ComboBox<String> box, Categories type)
+    {
+        box.getItems().setAll(WineryConnector.getCategory(type));
+    }
+
     public void populateBoxes()
     {
         HashMap<String, List<String>> categories = WineryConnector.getCategories();
 
-        grapesBox.getItems().clear();
-        grapesBox.getItems().addAll(categories.get("grapes"));
-        grapesBox.getItems();
+        grapesBox.getItems().setAll(categories.get("grapes"));
 
-        brandBox.getItems().clear();
-        brandBox.getItems().addAll(categories.get("brand"));
+        brandBox.getItems().setAll(categories.get("brand"));
 
-        countryBox.getItems().clear();
-        countryBox.getItems().addAll(categories.get("country"));
+        countryBox.getItems().setAll(categories.get("country"));
 
-        tasteBox.getItems().clear();
-        tasteBox.getItems().addAll(categories.get("taste"));
+        tasteBox.getItems().setAll(categories.get("taste"));
 
-        colourBox.getItems().clear();
-        colourBox.getItems().addAll(categories.get("colour"));
+        colourBox.getItems().setAll(categories.get("colour"));
     }
 
     @FXML
     protected void handleNewGrapesButton()
     {
         handleNewButton(Categories.grapes);
+        populateBox(grapesBox, Categories.grapes);
     }
 
     @FXML
     protected void handleNewBrandButton()
     {
         handleNewButton(Categories.brand);
+        populateBox(brandBox, Categories.brand);;
     }
 
     @FXML
     protected void handleNewCountryButton()
     {
         handleNewButton(Categories.country);
+        populateBox(countryBox, Categories.country);
     }
 
     private void handleNewButton(Categories category)
@@ -109,8 +134,6 @@ public class AdderController {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
             confirm.show();
             confirm.setContentText(String.format("%s %s added", category.toString(), newItem));
-            this.populateBoxes();
-
 
         } catch (CategoryAddException e){
             e.getAlert().show();
