@@ -5,12 +5,11 @@ import Entities.Wine;
 import exceptions.CategoryAddException;
 import exceptions.WineAddException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import ui.CategoryBox;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class AdderController {
 
@@ -67,15 +66,18 @@ public class AdderController {
         wine.setVolume(volumeField.getText());
         wine.setDrinked(drinkedBox.isSelected());
 
-        try {
-                WineryConnector.addWine(wine);
-// TODO refresh wines list
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to add wine:\n" + wine.toString());
+        Optional<ButtonType> result = confirm.showAndWait();
 
-        } catch (WineAddException e)
+        if (result.get() == ButtonType.OK)
         {
-            e.getAlert().show();
+            try {
+                WineryConnector.addWine(wine);
+            } catch (WineAddException e)
+            {
+                e.getAlert().show();
+            }
         }
-
 
 
     }

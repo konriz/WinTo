@@ -4,6 +4,7 @@ import Entities.Categories;
 import Entities.Wine;
 import exceptions.CategoryAddException;
 import exceptions.WineAddException;
+import exceptions.WineDeleteException;
 import javafx.scene.control.Alert;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -57,32 +58,40 @@ public class WineryConnector {
                     JSONObject brandJSON = jsonObject.getJSONObject("brand");
                     String brand = brandJSON.getString("brand").toString();
 
-                    String colour = "N/A";
+                    Wine wine = new Wine(name, brand);
+
                     if(!jsonObject.isNull("colour"))
                     {
-                        colour = jsonObject.getJSONObject("colour").getString("colour").toString();
+                        wine.setColour(jsonObject.getJSONObject("colour").getString("colour").toString());
+                    }
+                    else
+                    {
+                        wine.setColour("N/A");
                     }
 
                     String taste = "N/A";
                     if(!jsonObject.isNull("taste"))
                     {
-                        taste = jsonObject.getJSONObject("taste").getString("taste").toString();
+                        wine.setTaste(jsonObject.getJSONObject("taste").getString("taste").toString());
+                    }
+                    else
+                    {
+                        wine.setTaste("N/A");
                     }
 
+                    if(!jsonObject.isNull("drinked"))
+                    {
+                        wine.setDrinked(jsonObject.getBoolean("drinked"));
+                    }
 
-                    Entities.Wine wine = new Wine(name, brand, colour, taste);
                     wines.add(wine);
-
                 }
-
                 System.out.println(String.format("%s wines added.", wines.size()));
             }
             else
             {
                 System.out.println(String.format("Error! Check your winery app!\n"));
             }
-
-
         }
         catch (ConnectException e)
         {
@@ -92,7 +101,6 @@ public class WineryConnector {
         {
             e.printStackTrace();
         }
-
         return wines;
 
     }
@@ -193,6 +201,34 @@ public class WineryConnector {
                 {
                     urlParameters.append("&grapes=" + w.getGrapes());
                 }
+                if (w.getColour() != null)
+                {
+                    urlParameters.append("&colour=" + w.getColour());
+                }
+                if (w.getTaste() != null)
+                {
+                    urlParameters.append("&taste=" + w.getTaste());
+                }
+                if (w.getCountry() != null)
+                {
+                    urlParameters.append("&country=" + w.getCountry());
+                }
+                if (w.getYear() != null)
+                {
+                    urlParameters.append("&year=" + w.getYear());
+                }
+                if (w.getAlcohol() != null)
+                {
+                    urlParameters.append("&alcohol=" + w.getAlcohol());
+                }
+                if (w.getVolume() != null)
+                {
+                    urlParameters.append("&volume=" + w.getVolume());
+                }
+                if (w.getDrinked())
+                {
+                    urlParameters.append("&drinked=1");
+                }
 
                 connection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
@@ -205,15 +241,7 @@ public class WineryConnector {
 
                 if (responseCode == 200)
                 {
-                    StringBuilder confirmString = new StringBuilder();
-                    confirmString.append("New wine added :\n");
-                    confirmString.append(w.getBrand());
-                    confirmString.append(" : ");
-                    confirmString.append(w.getName());
-
-                    Alert confirm = new Alert(Alert.AlertType.INFORMATION);
-                    confirm.setContentText(confirmString.toString());
-                    confirm.showAndWait();
+                    System.out.println("Wine added : " + w.toString());
 
                 }
                 else
@@ -231,7 +259,50 @@ public class WineryConnector {
                 e.printStackTrace();
             }
         }
+    }
 
+    public static void deleteWine(Wine w) throws WineDeleteException
+    {
+        if (w.getName().length() < 1 || w.getBrand() == null)
+        {
+            throw new WineDeleteException();
+        }
+        else
+        {
+            HttpURLConnection connection = null;
+
+            try {
+                URL url = new URL("http://localhost:8080/wines/delete");
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+
+                StringBuilder urlParameters = new StringBuilder();
+                urlParameters.append("name=" + w.getName());
+                urlParameters.append("&brand=" + w.getBrand());
+
+                connection.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+                wr.writeBytes(urlParameters.toString());
+                wr.flush();
+                wr.close();
+
+                int responseCode = connection.getResponseCode();
+
+                System.out.println("Response code : " + responseCode);
+
+                if (responseCode == 200) {
+                    System.out.println("Wine deleted : " + w.toString());
+
+                } else {
+                    throw new WineDeleteException();
+                }
+
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void addItemToCategory(String item, Categories category) throws CategoryAddException

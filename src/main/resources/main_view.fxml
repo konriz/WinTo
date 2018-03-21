@@ -7,21 +7,52 @@
 <?import javafx.scene.layout.*?>
 
 
-<TabPane fx:id="tabPane" fx:controller="controller.MainController" xmlns="http://javafx.com/javafx/8.0.40"
-         xmlns:fx="http://www.w3.org/2001/XInclude">
-    <tabs>
-        <Tab fx:id="adderTab" text="Add" closable="false">
-            <fx:include fx:id="adderTabPage" source="adder_view.fxml"/>
-        </Tab>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<GridPane fx:id="mainPane" fx:controller="controller.MainController" xmlns="http://javafx.com/javafx/8.0.40"
+          xmlns:fx="http://www.w3.org/2001/XInclude"
+          prefHeight="400.0" prefWidth="600.0">
+    <padding><Insets topRightBottomLeft="10"/></padding>
 
-        <Tab fx:id="getterTab" text="View" closable="false">
-            <fx:include fx:id="getterTabPage" source="getter_view.fxml"/>
-        </Tab>
+    <ButtonBar fx:id="topButtonBar" GridPane.rowIndex="0">
+        <buttons>
+            <Button fx:id="addButton" text="Add" onAction="#handleAddButton" ButtonBar.buttonData="LEFT"/>
+            <Button fx:id="deleteButton" text="Delete" onAction="#handleDeleteButton" ButtonBar.buttonData="RIGHT"/>
+        </buttons>
+    </ButtonBar>
 
-        <Tab fx:id="deleterTab" text="Delete" closable="false">
-            <fx:include fx:id="deleterTabPage" source="deleter_view.fxml"/>
-        </Tab>
+    <TableView fx:id="winesTableView" prefWidth="600" GridPane.rowIndex="1">
+        <columns>
+            <TableColumn text="Brand">
+                <cellValueFactory>
+                    <PropertyValueFactory property="brand"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Taste">
+                <cellValueFactory>
+                    <PropertyValueFactory property="taste"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Colour">
+                <cellValueFactory>
+                    <PropertyValueFactory property="colour"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Drinked">
+                <cellValueFactory>
+                    <PropertyValueFactory property="drinked"/>
+                </cellValueFactory>
+            </TableColumn>
 
-    </tabs>
+        </columns>
 
-</TabPane>
+
+    </TableView>
+
+
+</GridPane>
