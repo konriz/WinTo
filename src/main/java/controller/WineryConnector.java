@@ -5,8 +5,6 @@ import Entities.Wine;
 import exceptions.CategoryAddException;
 import exceptions.WineAddException;
 import exceptions.WineDeleteException;
-import javafx.scene.control.Alert;
-import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,7 +26,7 @@ public class WineryConnector {
 
         try
         {
-            URL url = new URL("http://localhost:8080/wines/all");
+            URL url = new URL("http://wineyard.herokuapp.com/wines/all");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -115,7 +113,7 @@ public class WineryConnector {
         try
         {
 
-            URL url = new URL("http://localhost:8080/wines/" + category);
+            URL url = new URL("http://wineyard.herokuapp.com/wines/" + category);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -190,7 +188,7 @@ public class WineryConnector {
             HttpURLConnection connection = null;
 
             try{
-                URL url = new URL("http://localhost:8080/wines");
+                URL url = new URL("http://wineyard.herokuapp.com/wines");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
 
@@ -229,6 +227,10 @@ public class WineryConnector {
                 {
                     urlParameters.append("&drinked=1");
                 }
+                else
+                {
+                    urlParameters.append("&drinked=0");
+                }
 
                 connection.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
@@ -249,12 +251,8 @@ public class WineryConnector {
                     throw new WineAddException();
                 }
 
-            } catch (WineAddException e)
-            {
-                e.getAlert().show();
             }
-
-            catch (Exception e)
+            catch (IOException e)
             {
                 e.printStackTrace();
             }
@@ -272,7 +270,7 @@ public class WineryConnector {
             HttpURLConnection connection = null;
 
             try {
-                URL url = new URL("http://localhost:8080/wines/delete");
+                URL url = new URL("http://wineyard.herokuapp.com/wines/delete");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
 
@@ -314,7 +312,7 @@ public class WineryConnector {
         HttpURLConnection connection = null;
         try
         {
-            URL url = new URL("http://localhost:8080/wines/" + category.toString());
+            URL url = new URL("http://wineyard.herokuapp.com/wines/" + category.toString());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
 
