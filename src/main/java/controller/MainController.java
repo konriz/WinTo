@@ -4,17 +4,17 @@ import Entities.Wine;
 import exceptions.WineDeleteException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.net.URL;
+import java.util.*;
 
 
-public class MainController {
+public class MainController implements Initializable {
 
     @FXML
     private ButtonBar topButtonBar;
@@ -25,9 +25,12 @@ public class MainController {
     @FXML
     private TableView<Wine> winesTableView;
 
+    private ResourceBundle resources;
+
     @FXML
-    void initialize()
+    public void initialize(URL url, ResourceBundle resources)
     {
+        this.resources = resources;
         populateTableView();
     }
 
@@ -42,7 +45,8 @@ public class MainController {
     {
         try
         {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/adder_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/adder_view.fxml"),
+                    ResourceBundle.getBundle("winto", new Locale("pl", "PL")));
             Parent root = loader.load();
 
             AdderController adderController = loader.getController();
@@ -63,9 +67,10 @@ public class MainController {
     public void handleDeleteButton()
     {
         Wine wine = winesTableView.getFocusModel().getFocusedItem();
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to delete wine:\n" + wine.toString());
-        confirmAlert.setTitle("Delete wine");
-        Optional<ButtonType> result = confirmAlert.showAndWait();
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,  resources.getString("deleteConfirm") +"\n" + wine.toString());
+        confirm.setHeaderText(resources.getString("confirmation"));
+        confirm.setTitle("Delete wine");
+        Optional<ButtonType> result = confirm.showAndWait();
 
         if(result.get() == ButtonType.OK)
         {
@@ -79,6 +84,4 @@ public class MainController {
             }
         }
     }
-
-
 }

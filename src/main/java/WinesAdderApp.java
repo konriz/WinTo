@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class WinesAdderApp extends Application {
 
     public static void main(String[] args) {
@@ -16,13 +19,14 @@ public class WinesAdderApp extends Application {
     public void start(Stage stage) throws Exception{
 
         WineryConnector.setProperties();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main_view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main_view.fxml"),
+                ResourceBundle.getBundle("winto", new Locale("pl", "PL")));
         Parent root = loader.load();
 
         MainController mainController = loader.getController();
 
         Scene scene = new Scene(root);
-        stage.setTitle("Welcome");
+        stage.setTitle("WinTo");
         stage.setScene(scene);
         stage.show();
 

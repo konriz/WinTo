@@ -5,13 +5,16 @@ import Entities.Wine;
 import exceptions.CategoryAddException;
 import exceptions.WineAddException;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class AdderController {
+public class AdderController implements Initializable{
 
     @FXML
     private TextField nameField, yearField, alcoholField, volumeField;
@@ -40,9 +43,13 @@ public class AdderController {
     @FXML
     private Label resultLabel;
 
+    private ResourceBundle resources;
+
     @FXML
-    void initialize()
+    public void initialize(URL url, ResourceBundle resources)
     {
+        this.resources = resources;
+
         assert grapesBox != null : "GrapesBox not injected!";
         assert tasteBox != null : "tasteBox not injected!";
         assert colourBox != null : "colourBox not injected!";
@@ -66,7 +73,8 @@ public class AdderController {
         wine.setVolume(volumeField.getText());
         wine.setDrinked(drinkedBox.isSelected());
 
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to add wine:\n" + wine.toString());
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, resources.getString("addConfirm") + "\n" + wine.toString());
+        confirm.setHeaderText(resources.getString("confirmation"));
         Optional<ButtonType> result = confirm.showAndWait();
 
         if (result.get() == ButtonType.OK)

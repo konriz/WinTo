@@ -13,14 +13,14 @@
 <GridPane alignment="CENTER" hgap="10" prefHeight="500.0" prefWidth="550.0" vgap="10"
           xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdderController">
 
-    <Text text="Create new wine:" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER"/>
+    <Text text="%createNew" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER"/>
 
 
-    <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Label text="%name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
     <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="150" />
 
-    <Label text="Grapes:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <Label text="%grapes" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
     <ComboBox fx:id="grapesBox" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="150">
         <items>
@@ -30,11 +30,11 @@
         </items>
     </ComboBox>
 
-    <Button fx:id="newGrapesButton" text="new" onAction="#handleNewGrapesButton"
+    <Button fx:id="newGrapesButton" text="%new" onAction="#handleNewGrapesButton"
             GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
 
-    <Label text="Brand:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <Label text="%brand" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
     <ComboBox fx:id="brandBox" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="150">
         <items>
@@ -44,11 +44,11 @@
         </items>
     </ComboBox>
 
-    <Button fx:id="newBrandButton" text="new" onAction="#handleNewBrandButton"
+    <Button fx:id="newBrandButton" text="%new" onAction="#handleNewBrandButton"
             GridPane.columnIndex="2" GridPane.rowIndex="3" />
 
 
-    <Label text="Country:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <Label text="%country" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 
     <ComboBox fx:id="countryBox" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="150">
         <items>
@@ -58,16 +58,16 @@
         </items>
     </ComboBox>
 
-    <Button fx:id="newCountryButton" text="new" onAction="#handleNewCountryButton"
+    <Button fx:id="newCountryButton" text="%new" onAction="#handleNewCountryButton"
             GridPane.columnIndex="2" GridPane.rowIndex="4" />
 
 
-    <Label text="Year:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+    <Label text="%year" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
     <TextField fx:id="yearField" GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="150"/>
 
 
-    <Label text="Taste:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+    <Label text="%taste" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 
     <ComboBox fx:id="tasteBox" GridPane.columnIndex="1" GridPane.rowIndex="6" prefWidth="150">
         <items>
@@ -78,7 +78,7 @@
     </ComboBox>
 
 
-    <Label text="Colour:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+    <Label text="%colour" GridPane.columnIndex="0" GridPane.rowIndex="7" />
 
     <ComboBox fx:id="colourBox" GridPane.columnIndex="1" GridPane.rowIndex="7" prefWidth="150">
         <items>
@@ -89,26 +89,22 @@
     </ComboBox>
 
 
-    <Label text="Alcohol:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+    <Label text="%alcohol" GridPane.columnIndex="0" GridPane.rowIndex="8" />
 
     <TextField fx:id="alcoholField" GridPane.columnIndex="1" GridPane.rowIndex="8" prefWidth="150"/>
 
 
-    <Label text="Volume:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+    <Label text="%volume" GridPane.columnIndex="0" GridPane.rowIndex="9" />
 
     <TextField fx:id="volumeField" GridPane.columnIndex="1" GridPane.rowIndex="9" prefWidth="150"/>
 
-    <Label text="Drinked:" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+    <Label text="%drinked" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
 
     <CheckBox fx:id="drinkedBox" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
 
 
-    <Button fx:id="createWine" text="Create" onAction="#handleCreateWine"
+    <Button fx:id="createWine" text="%create" onAction="#handleCreateWine"
             GridPane.columnIndex="0" GridPane.rowIndex="11" GridPane.halignment="CENTER"
             GridPane.columnSpan="3"/>
-
-    <Label fx:id="resultLabel" text="Create new wine!" GridPane.columnIndex="0" GridPane.rowIndex="12"
-           GridPane.columnSpan="3" GridPane.halignment="CENTER"/>
-
 
 </GridPane>

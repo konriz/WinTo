@@ -148,10 +148,7 @@ public class Wine implements Comparable<Wine>{
 
         StringBuilder description = new StringBuilder();
         description.append(getBrand() + " : ");
-        description.append(getName() + " - ");
-        description.append(getColour() + ", ");
-        description.append(getTaste() + " from " + getCountry());
-        description.append(" - Drinked - " + getDrinked());
+        description.append(getName());
 
         return description.toString();
     }

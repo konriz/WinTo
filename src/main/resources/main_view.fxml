@@ -16,34 +16,34 @@
 
     <ButtonBar fx:id="topButtonBar" GridPane.rowIndex="0">
         <buttons>
-            <Button fx:id="addButton" text="Add" onAction="#handleAddButton" ButtonBar.buttonData="LEFT"/>
-            <Button fx:id="deleteButton" text="Delete" onAction="#handleDeleteButton" ButtonBar.buttonData="RIGHT"/>
+            <Button fx:id="addButton" text="%add" onAction="#handleAddButton" ButtonBar.buttonData="LEFT"/>
+            <Button fx:id="deleteButton" text="%delete" onAction="#handleDeleteButton" ButtonBar.buttonData="RIGHT"/>
         </buttons>
     </ButtonBar>
 
     <TableView fx:id="winesTableView" prefWidth="600" GridPane.rowIndex="1">
         <columns>
-            <TableColumn text="Brand">
+            <TableColumn text="%brand">
                 <cellValueFactory>
                     <PropertyValueFactory property="brand"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Name">
+            <TableColumn text="%name">
                 <cellValueFactory>
                     <PropertyValueFactory property="name"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Taste">
+            <TableColumn text="%taste">
                 <cellValueFactory>
                     <PropertyValueFactory property="taste"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Colour">
+            <TableColumn text="%colour">
                 <cellValueFactory>
                     <PropertyValueFactory property="colour"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Drinked">
+            <TableColumn text="%drinked">
                 <cellValueFactory>
                     <PropertyValueFactory property="drinked"/>
                 </cellValueFactory>
