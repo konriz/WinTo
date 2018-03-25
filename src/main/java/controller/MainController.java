@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,11 +34,8 @@ public class MainController {
     public void populateTableView()
     {
         List<Wine> wines = WineryConnector.getWines();
-
-        // TODO sort list of wines - add Wine.compareTo(Wine w)
-
+        Collections.sort(wines);
         winesTableView.getItems().setAll(wines);
-
     }
 
     public void handleAddButton()

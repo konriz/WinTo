@@ -1,4 +1,5 @@
 import controller.MainController;
+import controller.WineryConnector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +15,7 @@ public class WinesAdderApp extends Application {
     @Override
     public void start(Stage stage) throws Exception{
 
+        WineryConnector.setProperties();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main_view.fxml"));
         Parent root = loader.load();
 

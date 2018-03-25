@@ -8,15 +8,29 @@ import exceptions.WineDeleteException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.*;
 import java.util.*;
 
 public class WineryConnector {
 
+
+    private static Properties connectionProperties;
+
+    public static void setProperties()
+    {
+        connectionProperties = new Properties();
+        try
+        {
+            connectionProperties.load(new FileInputStream("target/classes/connection.properties"));
+        }
+        catch (IOException e)
+        {
+            System.out.println("Unable to find properties file!");
+            connectionProperties.setProperty("appURL", "http://wineyard.herokuapp.com/wines/");
+        }
+
+    }
 
     public static List<Entities.Wine> getWines()
     {
@@ -26,7 +40,7 @@ public class WineryConnector {
 
         try
         {
-            URL url = new URL("http://wineyard.herokuapp.com/wines/all");
+            URL url = new URL(connectionProperties.getProperty("appURL") + "all");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -113,7 +127,7 @@ public class WineryConnector {
         try
         {
 
-            URL url = new URL("http://wineyard.herokuapp.com/wines/" + category);
+            URL url = new URL(connectionProperties.getProperty("appURL") + category);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -188,7 +202,7 @@ public class WineryConnector {
             HttpURLConnection connection = null;
 
             try{
-                URL url = new URL("http://wineyard.herokuapp.com/wines");
+                URL url = new URL(connectionProperties.getProperty("appURL"));
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
 
@@ -270,7 +284,7 @@ public class WineryConnector {
             HttpURLConnection connection = null;
 
             try {
-                URL url = new URL("http://wineyard.herokuapp.com/wines/delete");
+                URL url = new URL(connectionProperties.getProperty("appURL") +"delete");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
 
@@ -312,7 +326,7 @@ public class WineryConnector {
         HttpURLConnection connection = null;
         try
         {
-            URL url = new URL("http://wineyard.herokuapp.com/wines/" + category.toString());
+            URL url = new URL(connectionProperties.getProperty("appURL") + category.toString());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
 

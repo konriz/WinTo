@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Wine {
+public class Wine implements Comparable<Wine>{
 
     private final SimpleStringProperty name = new SimpleStringProperty();
     private final SimpleStringProperty brand = new SimpleStringProperty();
@@ -17,7 +17,6 @@ public class Wine {
     private final SimpleStringProperty alcohol = new SimpleStringProperty();
     private final SimpleStringProperty volume = new SimpleStringProperty();
     private final SimpleBooleanProperty drinked = new SimpleBooleanProperty();
-
 
     public Wine(String name, String brand)
     {
@@ -31,6 +30,20 @@ public class Wine {
         setBrand(brand);
         setColour(colour);
         setTaste(taste);
+    }
+
+    public int compareTo(Wine w)
+    {
+        int brandCompare = this.getBrand().compareTo(w.getBrand());
+        if(brandCompare == 0)
+        {
+            return this.getName().compareTo(w.getName());
+        }
+        else
+        {
+            return brandCompare;
+        }
+
     }
 
 
