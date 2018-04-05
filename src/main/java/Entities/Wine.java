@@ -2,8 +2,6 @@ package Entities;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import lombok.Getter;
-import lombok.Setter;
 
 public class Wine implements Comparable<Wine>{
 
