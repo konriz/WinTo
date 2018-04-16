@@ -206,49 +206,32 @@ public class WineryConnector {
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
 
-                StringBuilder urlParameters = new StringBuilder();
-                urlParameters.append("name=" + w.getName());
-                urlParameters.append("&brand=" + w.getBrand());
-                if (w.getGrapes() != null)
+                JSONObject wineDTO = new JSONObject();
+                wineDTO.put("name", w.getName());
+                wineDTO.put("brand", w.getBrand());
+                wineDTO.put("grapes", w.getGrapes());
+                wineDTO.put("colour", w.getColour());
+                wineDTO.put("taste", w.getTaste());
+                wineDTO.put("country", w.getCountry());
+                if (w.getYear().length()>0)
                 {
-                    urlParameters.append("&grapes=" + w.getGrapes());
+                    wineDTO.put("year", w.getYear());
                 }
-                if (w.getColour() != null)
+                if (w.getAlcohol().length()>0)
                 {
-                    urlParameters.append("&colour=" + w.getColour());
+                    wineDTO.put("alcohol", w.getAlcohol());
                 }
-                if (w.getTaste() != null)
+                if (w.getVolume().length()>0)
                 {
-                    urlParameters.append("&taste=" + w.getTaste());
+                    wineDTO.put("volume", w.getVolume());
                 }
-                if (w.getCountry() != null)
-                {
-                    urlParameters.append("&country=" + w.getCountry());
-                }
-                if (w.getYear() != null)
-                {
-                    urlParameters.append("&year=" + w.getYear());
-                }
-                if (w.getAlcohol() != null)
-                {
-                    urlParameters.append("&alcohol=" + w.getAlcohol());
-                }
-                if (w.getVolume() != null)
-                {
-                    urlParameters.append("&volume=" + w.getVolume());
-                }
-                if (w.getDrinked())
-                {
-                    urlParameters.append("&drinked=1");
-                }
-                else
-                {
-                    urlParameters.append("&drinked=0");
-                }
+                wineDTO.put("drinked", w.getDrinked());
+
 
                 connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/json");
                 DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-                wr.writeBytes(urlParameters.toString());
+                wr.writeBytes(wineDTO.toString());
                 wr.flush();
                 wr.close();
 
