@@ -236,12 +236,14 @@ public class WineryConnector {
                 wr.close();
 
                 int responseCode = connection.getResponseCode();
+                String responseMessage = connection.getResponseMessage();
+
                 System.out.println("Response code : " + responseCode);
+                System.out.println("Response message : " + responseMessage);
 
                 if (responseCode == 200)
                 {
                     System.out.println("Wine added : " + w.toString());
-
                 }
                 else
                 {
@@ -282,8 +284,10 @@ public class WineryConnector {
                 wr.close();
 
                 int responseCode = connection.getResponseCode();
+                String responseMessage = connection.getResponseMessage();
 
                 System.out.println("Response code : " + responseCode);
+                System.out.println("Response message : " + responseMessage);
 
                 if (responseCode == 200) {
                     System.out.println("Wine deleted : " + w.toString());
